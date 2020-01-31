@@ -1,0 +1,77 @@
+﻿@model Nop.Plugin.Widgets.BsProductLocation.Models.ProductLocationRecordModel
+@{
+    Layout = "";
+    Html.AppendCssFileParts("~/Plugins/Widgets.BsProductLocation/Content/styles.css");
+
+}
+@using Nop.Web.Framework
+@using Nop.Web.Framework.UI
+
+@if(Model.AvailableServiceAreas.Count>0)
+{
+<div>
+    @Html.DropDownList("ServiceAreas", Model.AvailableServiceAreas, new {onchange = "setLocation(this.value);"})
+</div>
+}
+<section class="map" id="google_map">
+    
+        @*<div class="location-title">
+                <h4>Location on the map</h4>
+            </div>*@
+
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIe9l7gj_B8-VTfK9hoEGYjvPCpbnTN0s&libraries=geometry,places">
+    </script>
+        <script>
+            var mapCompanyMap;
+
+            function initializeCompanyMap() {
+                var latlng = new google.maps.LatLng('@Model.Latitude', '@(Model.Longitude - 0.066)');
+                var myOptions = {
+                    zoom: 11,
+                    center: latlng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    zoomControl: true,
+                    zoomControlOptions: {
+                        style: google.maps.ZoomControlStyle.LARGE
+                    }
+                };
+                mapCompanyMap = new google.maps.Map(document.getElementById("map_canvas_product"), myOptions);
+
+                var marker = new google.maps.Marker
+                (
+                    {
+                        position: new google.maps.LatLng('@Model.Latitude', '@Model.Longitude'),
+                        map: mapCompanyMap,
+                        title: 'Click me'
+                    }
+                );
+                var infowindow = new google.maps.InfoWindow({
+                    content: '@Model.ServiceAreaName'
+                });
+                google.maps.event.addListener(marker, 'click', function () {
+                    // Calling the open method of the infoWindow
+                    infowindow.open(map, marker);
+                });
+            }
+
+            //window.onload = initializeCompanyMap;
+
+            $(document).ready(function () {
+                initializeCompanyMap();
+            });
+
+
+        </script>
+
+
+        <div id="map_canvas_product" class="" style="width: 100%;Height:500Px">
+
+        </div>
+
+
+
+  
+   
+    
+</section>

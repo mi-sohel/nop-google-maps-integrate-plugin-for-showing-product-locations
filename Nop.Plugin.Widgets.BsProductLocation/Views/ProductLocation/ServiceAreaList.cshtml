@@ -1,0 +1,88 @@
+﻿@using Nop.Web.Framework.UI
+@{
+    //page title
+    ViewBag.Title = "Service Area Manage";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Manage SericeArea");
+}
+
+@Html.AntiForgeryToken()
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        Manage Serice Area
+    </h1>
+    <div class="pull-right">
+        <a href="@Url.Action("ServiceAreaCreate")" class="btn btn-primary">Create</a>
+        
+    </div>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <div id="sericeara-grid"></div>
+
+                    <script>
+                        $(document).ready(function() {
+                            $("#sericeara-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("ServiceAreaList", "ProductLocation"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors"
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    numeric: false,
+                                    previousNext: false,
+                                    info: false
+                                },
+                               scrollable: false,
+                                columns: [
+                                    {
+                                        field: "Id",
+                                        title: "Id",
+                                        width: 50
+                                    },
+                                    {
+                                        field: "Name",
+                                        title: "Name",
+                                        width: 300
+                                    }, {
+                                        field: "Id",
+                                        title: "@T("Admin.Common.Edit")",
+                                        width: 100,
+                                        template: '<a href="ServiceAreaEdit/#=Id#">@T("Admin.Common.Edit")</a>'
+                                    }
+                                ]
+                            });
+                        });
+
+                        
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+﻿Group: Widgets
+FriendlyName: Product Locator
+SystemName: Sohel.ProductLocators
+Version: 1.0
+SupportedVersions: 3.90
+Author: Md. Minul Islam Sohel, Skype: misohel@hotmail.com
+DisplayOrder: 1
+FileName: Nop.Plugin.Widgets.BsProductLocation.dll
+Description: Showing Product Location in Product Details Page

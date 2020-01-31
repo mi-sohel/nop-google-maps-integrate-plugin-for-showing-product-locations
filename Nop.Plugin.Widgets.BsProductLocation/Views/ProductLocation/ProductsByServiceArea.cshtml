@@ -1,0 +1,68 @@
+﻿@model Nop.Plugin.Widgets.BsProductLocation.Models.CustomSearchModel
+@{
+    Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Search").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-search-page");
+}
+@using System.Web.Mvc.Html
+@using Nop.Web.Extensions
+@using Nop.Web.Framework
+@using Nop.Web.Framework.UI
+@using Nop.Web.Models.Catalog;
+
+<div class="page search-page">
+    <div class="page-title">
+        <h1>@T("Search")</h1>
+    </div>
+    <div class="page-body">
+        <div class="search-input">
+             @Html.DropDownList("ServiceAreas", Model.AvailableServiceAreas, new { onchange = "setLocation(this.value);" })
+        </div>
+        @if (Model.SearchModel.Products.Count > 0)
+        {
+            @Html.Partial("~/Plugins/Widgets.BsProductLocation/Views/ProductLocation/_CatalogSelectors.cshtml", Model.SearchModel.PagingFilteringContext, new ViewDataDictionary())
+        }
+        @Html.Widget("productsearch_page_before_results")
+        <div class="search-results">
+            @if (!String.IsNullOrEmpty(Model.SearchModel.Warning))
+            {
+                <div class="warning">
+                    @Model.SearchModel.Warning
+                </div>
+            }
+            @if (Model.SearchModel.NoResults)
+            {
+                <div class="no-result">
+                    @T("Search.NoResultsText")
+                </div>
+            }
+            
+            @if (Model.SearchModel.Products.Count > 0)
+            {
+                <div class="@(Model.SearchModel.PagingFilteringContext.ViewMode == "list" ? "product-list" : "product-grid")">
+                    <div class="item-grid">
+                        @foreach (var product in Model.SearchModel.Products)
+                        {
+                            <div class="item-box">
+                                @Html.Partial("_ProductBox", product)
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            @{
+                var pager = Html.Pager(Model.SearchModel.PagingFilteringContext).QueryParam("pagenumber").BooleanParameterName("adv").BooleanParameterName("isc").BooleanParameterName("sid").RenderEmptyParameters(true);
+            }
+            @if (!pager.IsEmpty())
+            {
+                <div class="pager">
+                    @pager
+                </div>
+            }
+        </div>
+        @Html.Widget("productsearch_page_after_results")
+    </div>
+</div>

@@ -1,0 +1,11 @@
+﻿@model Nop.Plugin.Widgets.BsProductLocation.Models.PublicInfoModel
+@{
+    Layout = "";
+   
+}
+@using Nop.Web.Framework.UI
+
+<a class="button-google-map" href="@Url.RouteUrl("Product", new { SeName = Model.ProductSeName })?#google_map">
+    <span class="icon-google-map"></span>
+</a>
+

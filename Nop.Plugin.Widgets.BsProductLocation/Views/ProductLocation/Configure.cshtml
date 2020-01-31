@@ -1,0 +1,36 @@
+﻿@using Nop.Core.Domain.Catalog
+@using Nop.Admin.Models.Catalog
+@using Nop.Core.Infrastructure
+
+@*@using Nop.Plugin.Widgets.BsProductLocation.Models;*@
+@using Nop.Web.Framework;
+@using Nop.Web.Framework.UI;
+@{
+    Layout = "";
+}
+@model ProductListModel
+@{
+    var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
+    var gridPageSizes = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSizes;
+
+    //page title
+    ViewBag.Title = T("Admin.Catalog.Products").Text;
+
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("ProductLocation");
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            <a href="/product-location/product-list" class="menu-item-link">
+                <span class="menu-item-title">Please Click here</span>
+            </a>
+        </h1>
+
+    </div>
+
+    
+}
+
